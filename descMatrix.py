@@ -15,7 +15,7 @@ def describeMatrix(matrix):
 	#print(res)
 	#print(res['pod'][1]['subpod']['plaintext'])
 	pods=res['pod']
-	for pod in pods:
+	'''for pod in pods:
 		#print(pod['@title'],end=' '))
 		if 'subpod' in pod:
 		# print('{}',type(pod['subpod']))
@@ -27,7 +27,15 @@ def describeMatrix(matrix):
 					links[pod['@title']].append(subpod['img']['@src'])
 		else:
 		#print('{}'.format(pod['subpod']['plaintext']))
-			links[pod['@title']]=pod['img']['@src']
+			links[pod['@title']]=pod['img']['@src']'''
+	for pod in pods:
+		#print(pod['@title'])
+		if int(pod['@numsubpods']) == 1:
+			links[pod['@title']]=pod['subpod']['img']['@src']
+		else:
+			links[pod['@title']]=[]
+			for subpod in pod['subpod']:
+				links[pod['@title']].append(subpod['img']['@src'])	
 	return links
 
-print(describeMatrix('{{1,0,0},{0,1,0},{0,0,1}}'))
+#print(describeMatrix('{{1,0,0},{0,1,0},{0,0,1}}'))
