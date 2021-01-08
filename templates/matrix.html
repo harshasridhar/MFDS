@@ -1,0 +1,30 @@
+{% extends "index.html" %}
+
+{% block content %}
+	Oyeee!
+	<form action="/matrix/{{choice}}" method="post" novalidate>
+            {{ form.hidden_tag() }}
+            Choice is {{choice}}<br>
+            {% if choice == '2' %}
+                    {{ form.a11(size=10) }}
+                    {{ form.a12(size=10) }}
+                    <br>
+                    {{ form.a21(size=10) }}
+                    {{ form.a22(size=10) }}
+            {% elif choice == '3' %} 
+                    {{ form.a11(size=10) }}
+                    {{ form.a12(size=10) }}
+                    {{ form.a13(size=10) }}
+                    <br>
+                    {{ form.a21(size=10) }}
+                    {{ form.a22(size=10) }}
+                    {{ form.a23(size=10) }}
+                    <br>
+                    {{ form.a31(size=10) }}
+                    {{ form.a32(size=10) }}
+                    {{ form.a33(size=10) }}
+                    <br>
+            {% endif %}
+            <p>{{ form.submit() }}</p>
+        </form>
+{% endblock %}

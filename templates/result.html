@@ -1,0 +1,23 @@
+{% extends "index.html" %}
+Result
+{% block content %}
+	<div style='overflow-x:scroll;overflow-y:scroll;width:100%;height:100%'>
+	<table>
+	<tr>
+		<td style="font-weight: bold; font-size:100%; color:red">Property</td>
+		<td style="font-weight: bold; font-size: 100%; color: red">Description</td></tr>
+	{% for key,value in dict.items() %}
+		<tr><td>
+		<h4>{{ key }}</h4></td><td style="width: fit-content">
+		{% if value is iterable and (value is not string and value is not mapping) %}
+			{% for item in value %}
+				<img src="{{item}}"><br>
+			{% endfor %}
+		{% else %}
+			<img src="{{value}}"><br>
+		{% endif %}
+		</td></tr>
+	{% endfor %}
+	</table>
+	</div>
+{% endblock %}
