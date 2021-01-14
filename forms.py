@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, DecimalField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, DecimalField, TextField
 from wtforms.validators import DataRequired
 
 class MainForm(FlaskForm):
@@ -37,3 +37,14 @@ class M3(M2):
 
 	def getMatrixRepresentation(self):
 		return "[[{},{},{}],[{},{},{}],[{},{},{}]]".format(self.a11.raw_data[0], self.a12.raw_data[0], self.a13.raw_data[0], self.a21.raw_data[0], self.a22.raw_data[0], self.a23.raw_data[0],self.a31.raw_data[0],self.a32.raw_data[0],self.a33.raw_data[0]).replace("[","{").replace("]","}")
+
+class CacheReplacementAlgo(FlaskForm):
+	algos = SelectField('REPLACEMENT ALGO', choices = ['LRU','LFU','FIFO'])
+	cache_size=DecimalField('cache size',places=1, render_kw={'placeholder':'cache size'})
+	access_pattern = TextField(render_kw={'placeholder':'page reference pattern'})
+	showResult=False
+	text=''
+	cache=''
+	hit_count=''
+	hit_ratio=''
+	submit = SubmitField('Simulate')

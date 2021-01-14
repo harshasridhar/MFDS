@@ -1,0 +1,60 @@
+{% extends "index.html" %}
+
+{% block content %}
+    Cache Replacement Strategies - Fully Associative Cache
+    <form action="" method="post">
+        Select Algorithm{{ form.algos }}<br>
+        {{form.cache_size}}<br>
+        {{form.access_pattern(size=50)}}<br>
+        {{ form.submit }}
+        {% if form.showResult == True %}
+            <h1>Results</h1>
+            <table style='overflow-x:scroll;width:100%;'>
+                <tr>
+                    <td style='font-weight: bold;'>Steps</td>
+                    <th colspan="5"></th>
+                        {% set access_pattern=form.access_pattern.raw_data[0].split(',') %}
+                        {% for line in form.text %}
+                            {% set forloop = loop %}
+                            {% if 'Adding' in line  and 'Removing' not in line %}
+                                <td rowspan=2 style='color: green; background-color: lightgreen; text-align: center'><p style="background-color: rgb(1, 12, 12); color: white">{{access_pattern[forloop.index-1]}}</p>{{line}}</td>
+                            {% elif 'Updating' in line %}
+                                <td style='color: blue; background-color: lightblue; text-align: center'><p style="background-color: rgb(1, 12, 12); color: white">{{access_pattern[forloop.index-1]}}</p>{{line}}</td>
+                            {% elif 'already' in line %}    
+                            <td style='color: yellow; background-color: rgb(240, 204, 61); text-align: center'><p style="background-color: rgb(1, 12, 12); color: white">{{access_pattern[forloop.index-1]}}</p>{{line}}</td>
+                            {% else %}
+                                <td style='color: red; background-color: rgb(225, 171, 171); text-align: center'><p style="background-color: rgb(1, 12, 12); color: white">{{access_pattern[forloop.index-1]}}</p>{{line}}</td>
+                            {% endif %}
+                        {% endfor %}
+                    
+                </tr>
+            </table>
+            <br>
+            <table>
+                
+                <!-- <tr>
+                    <td style='font-weight: bold;'>Cache</td>
+                    <th colspan="50"></th>
+                    <td rowspan="2">{{form.cache}}</td>
+                </tr> -->
+                <tr>
+                    <td style='font-weight: bold; text-align:right'>Hit Count</td>
+                    <td rowspan="1">{{form.hit_count}}</td>
+                </tr>
+                <tr>
+                    <td style='font-weight: bold; text-align:right'>Miss Count</td>
+                    <td rowspan="1">{{access_pattern|length -form.hit_count}}</td>
+                </tr>
+                {% set hit_ratio=form.hit_ratio*100.0 %}
+                <tr>
+                    <td style='font-weight: bold; text-align:right'>Hit Ratio</td>
+                    <td rowspan="1">{{"%.2f"|format(hit_ratio)}}%</td>
+                </tr>
+                <tr>
+                    <td style='font-weight: bold; text-align:right'>Miss Ratio</td>
+                    <td rowspan="1">{{"%.2f"|format(100-hit_ratio)}}%</td>
+                </tr>
+            </table>
+        {% endif %}
+	</form>
+{% endblock %}
