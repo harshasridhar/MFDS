@@ -1,0 +1,12 @@
+{% extends "index.html" %}
+{% block content %}
+<form action="/prein" method="post">
+    <p>Enter the traversal with nodes separated by ,</p>
+    PreOrder:{{form.preorder}}<br>
+    InOrder:{{form.inorder}}<br>
+    {{form.submit}}<br>
+    {% if form.showResult %}
+        <h2>PostOrderTraversal is <b style="color: red">{{form.traversal}}</b></h2>
+    {% endif %}
+</form>
+{% endblock %}

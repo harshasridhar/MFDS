@@ -1,7 +1,8 @@
 from flask import Flask, render_template, flash, redirect, request
-from forms import MainForm, M2, M3, CacheReplacementAlgo
+from forms import MainForm, M2, M3, CacheReplacementAlgo, BuildTree, PreIn, PostIn
 from descMatrix import describeMatrix
 from simulation import lru, fifo, lfu
+from Problem import Problem
 app=Flask(__name__)
 app.config['SECRET_KEY'] = 'you-will-never-guess1'
 
@@ -56,6 +57,43 @@ def cache_replacement_algo():
 		c.hit_ratio=hit_ratio
 		return render_template('cache_replacement_algo.html', form=c)
 		# pass
+
+@app.route('/dsad',methods=['GET'])
+def dsad():
+	return render_template('dsad.html')
+
+@app.route('/dsad/tree',methods=['GET','POST'])
+def tree():
+	form=BuildTree()
+	if request.method == 'POST':
+		combo=form.combo.raw_data[0]
+		if combo == "Pre&In":
+			form=PreIn()
+			return render_template('prein.html',form=form)
+		else:
+			form=PostIn()
+			return render_template('postin.html',form=form)
+	return render_template('tree.html',form=form)
+
+@app.route('/prein',methods=['POST'])
+def preIn():
+	prein=PreIn()
+	p=Problem()
+	tree=p.buildTree(prein.preorder.raw_data[0].split(','),prein.inorder.raw_data[0].split(','))
+	prein.showResult=True
+	prein.traversal=tree.getTreeRepresentation(order='post')
+	return render_template('prein.html',form=prein)
+
+@app.route('/postin',methods=['POST'])
+def postIn():
+	postin=PostIn()
+	p=Problem()
+	tree=p.buildTreeFromPostOrderAndInorder(postin.postorder.raw_data[0].split(','),postin.inorder.raw_data[0].split(','))
+	postin.showResult=True
+	postin.traversal=tree.getTreeRepresentation(order='pre')
+	return render_template('postin.html',form=postin) 
+
+
 
 if __name__ == '__main__':
 	app.run()

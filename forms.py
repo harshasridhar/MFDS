@@ -48,3 +48,22 @@ class CacheReplacementAlgo(FlaskForm):
 	hit_count=''
 	hit_ratio=''
 	submit = SubmitField('Simulate')
+
+class BuildTree(FlaskForm):
+	combo=SelectField('Select Combination',choices=[('Pre&In','Pre&In'),('Post&In','Post&In')])
+	submit = SubmitField('Build Tree')
+	submit=SubmitField('Confirm Combination')
+
+class TreeForm(FlaskForm):
+	inorder = TextField(render_kw={'placeholder':'InOrder Traversal'})
+	showResult=False
+	traversal=''
+
+class PreIn(TreeForm):
+	preorder = TextField(render_kw={'placeholder':'PreOrder Traversal'})
+	submit=SubmitField('Find PostOrder traversal')
+
+class PostIn(TreeForm):
+	postorder = TextField(render_kw={'placeholder':'PreOrder Traversal'})
+	submit=SubmitField('Find PreOrder traversal')
+	
