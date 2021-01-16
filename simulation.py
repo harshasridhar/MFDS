@@ -7,7 +7,7 @@ def lru(access_pattern,max_cache_size=1):
 	cache_size=0
 	for page in access_pattern:
 		if cache_size == max_cache_size and page not in cache:
-			cache ={k:v for k,v in  sorted(cache.items(),key=lambda x: x[0],reverse=True) }
+			cache ={k:v for k,v in  sorted(cache.items(),key=lambda x: x[1]) }
 			page_to_remove=list(cache.keys())[0]
 			stepsStr+='Removing page {} from cache '.format(page_to_remove)
 			old_time =cache[page_to_remove]
@@ -53,23 +53,23 @@ def lfu(access_pattern, max_cache_size =1):
 	cache_size=0
 	for page in access_pattern:
 		if cache_size == max_cache_size and page not in cache:
-			cache ={k:v for k,v in  sorted(cache.items(),key=lambda x: x[0],reverse=True) }
+			cache ={k:v for k,v in  sorted(cache.items(),key=lambda x: (x[1]['freq'],x[1]['time']),reverse=False) }
 			page_to_remove=list(cache.keys())[0]
-			stepsStr+='Removing page {} from cache Count = {}'.format(page_to_remove,cache[page_to_remove])
+			stepsStr+='Removing page {} from cache Count = {}'.format(page_to_remove,cache[page_to_remove]['freq'])
 			old_time =cache[page_to_remove]
 			del cache[page_to_remove]
 			stepsStr+='Adding page {} to cache Count = {}\n'.format(page,1)
-			cache[page]=1
-			cache_size = cache_size+1
+			cache[page]={'freq':1,'time':int(round(time.time() * 1000))}
 		else:
 			if page not in cache:
-				cache[page]=1
+				cache[page]={'freq':1,'time':int(round(time.time() * 1000))}
 				stepsStr+='Adding page {} to cache Count = {}\n'.format(page,1)
 				cache_size = cache_size+1
 			else:
 				hits+=1
-				cache[page]=cache[page]+1
-				stepsStr+='Updating count for {} Count = {}\n'.format(page,cache[page])
+				cache[page]['freq']=cache[page]['freq']+1
+				cache[page]['time']=int(round(time.time()*1000))
+				stepsStr+='Updating count for {} Count = {}\n'.format(page,cache[page]['freq'])
 		sleep(0.1)
 	return stepsStr,cache,hits,(hits/(len(access_pattern)*1.0))
 			
