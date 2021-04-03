@@ -66,4 +66,9 @@ class PreIn(TreeForm):
 class PostIn(TreeForm):
 	postorder = TextField(render_kw={'placeholder':'PreOrder Traversal'})
 	submit=SubmitField('Find PreOrder traversal')
+
+class Parenthesis(TreeForm):
+	arr=TextField(render_kw={'placeholder':'Input Array'})
+	output=''
+	submit=SubmitField('Find Optimal Parenthesis')
 	

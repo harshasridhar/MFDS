@@ -1,7 +1,6 @@
 {% extends "index.html" %}
 
 {% block content %}
-	Oyeee!
 	<form action="/matrix/{{choice}}" method="post" novalidate>
             {{ form.hidden_tag() }}
             Choice is {{choice}}<br>

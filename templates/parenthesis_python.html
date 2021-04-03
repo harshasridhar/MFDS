@@ -1,0 +1,11 @@
+{% extends "index.html" %}
+{% block content %}
+<form action="/parenthesis_py" method="post">
+    <p>Enter the sizes separated by space ' '</p>
+    {{form.arr}}
+    {{form.submit}}<br>
+    <textarea readonly style="width:100%; height:100%">
+    {{form.output}}
+   </textarea>
+</form>
+{% endblock %}

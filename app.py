@@ -1,5 +1,5 @@
 from flask import Flask, render_template, flash, redirect, request
-from forms import MainForm, M2, M3, CacheReplacementAlgo, BuildTree, PreIn, PostIn
+from forms import MainForm, M2, M3, CacheReplacementAlgo, BuildTree, PreIn, PostIn, Parenthesis
 from descMatrix import describeMatrix
 from simulation import lru, fifo, lfu
 from Problem import Problem
@@ -83,6 +83,19 @@ def preIn():
 	prein.showResult=True
 	prein.traversal=tree.getTreeRepresentation(order='post')
 	return render_template('prein.html',form=prein)
+
+@app.route('/parenthesis',methods=['GET'])
+def parenthesis():
+	return render_template('parenthesis.html',arr="",output='')
+from code import main
+@app.route('/parenthesis_py',methods=['GET','POST'])
+def parenthesis_post():
+	parenthesis=Parenthesis()
+	if request.method == 'POST':
+		int_array = [int(i) for i in parenthesis.arr.raw_data[0].strip().split(',')]
+		output=main(int_array)
+		parenthesis.output = output
+	return render_template('parenthesis_python.html',form=parenthesis)
 
 @app.route('/postin',methods=['POST'])
 def postIn():
